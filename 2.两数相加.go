@@ -6,6 +6,10 @@ package goleetcode
  * [2] 两数相加
  */
 
+/*
+ * 模拟加法，注意最后如果进位是1，要再往前进
+ */
+
 // @lc code=start
 /**
  * Definition for singly-linked list.
