@@ -32,10 +32,12 @@ package goleetcode
  * [2] 组成左边的数nums1下标到mid，则nums2下标到k-mid-2，为-1时表示全在右边，
  * ok为true表示这种情况是正确的划分方法，且中位数为ans，否则goleft为true时往左
  * 二分，goleft为false时往右二分
- * [3] bound的范围应该是-1到len-1，小于-1说明nums2中分界线太左边了，不可行且
+ * [3] 如果二分没能得到答案，那么一定是nums1中数全在右边的情况，因为二分mid不可能为-1，
+ * 忽略了这种情况
+ * [4] bound的范围应该是-1到len-1，小于-1说明nums2中分界线太左边了，不可行且
  * 接下来要往右二分，大于len-1说明nums2中分界线太右边了，不可行且接下来要往左二分，
  * nums1的bound由二分得到，不会出现这种情况
- * [4] 按数字总数的奇偶分别计算答案
+ * [5] 按数字总数的奇偶分别计算答案
  */
 
 // @lc code=start
@@ -61,14 +63,14 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 			}
 		}
 	}
-	ans, _, _ := check(nums1, nums2, -1, k-1)
+	ans, _, _ := check(nums1, nums2, -1, k-1) // [3]
 	return ans
 }
 
 func check(nums1, nums2 []int, bound1, bound2 int) (float64, bool, bool) {
 	n, m := len(nums1), len(nums2)
 	l_max, r_min := -1000005, 1000005
-	if bound2 < -1 { // [3]
+	if bound2 < -1 { // [4]
 		return 0.0, false, true
 	}
 	if bound2 >= m {
@@ -87,7 +89,7 @@ func check(nums1, nums2 []int, bound1, bound2 int) (float64, bool, bool) {
 		r_min = min(r_min, nums2[bound2+1])
 	}
 	ans := 0.0
-	if (n+m)&1 != 0 { // [4]
+	if (n+m)&1 != 0 { // [5]
 		ans = float64(r_min)
 	} else {
 		ans = (float64(l_max) + float64(r_min)) / 2
