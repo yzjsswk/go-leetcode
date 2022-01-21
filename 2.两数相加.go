@@ -10,14 +10,13 @@ package goleetcode
  * 模拟加法，注意最后如果进位是1，要再往前进
  */
 
+//Definition for singly-linked list.
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 // @lc code=start
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	sum := &ListNode{}
 	tail := sum
